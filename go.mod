@@ -1,4 +1,4 @@
-module github.com/gin-gonic/gin
+module github.com/dushaoshuai/explore-gin-routes-tree
 
 go 1.20
 

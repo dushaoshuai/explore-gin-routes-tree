@@ -9,7 +9,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/gin-gonic/gin/binding"
+	"github.com/dushaoshuai/explore-gin-routes-tree/binding"
 )
 
 // EnvGinMode indicates environment name for gin mode.

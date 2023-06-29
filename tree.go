@@ -11,7 +11,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/gin-gonic/gin/internal/bytesconv"
+	"github.com/dushaoshuai/explore-gin-routes-tree/internal/bytesconv"
 )
 
 var (

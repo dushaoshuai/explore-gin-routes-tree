@@ -19,9 +19,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/dushaoshuai/explore-gin-routes-tree/binding"
+	"github.com/dushaoshuai/explore-gin-routes-tree/render"
 	"github.com/gin-contrib/sse"
-	"github.com/gin-gonic/gin/binding"
-	"github.com/gin-gonic/gin/render"
 )
 
 // Content-Type MIME of the most common data formats.
@@ -665,7 +665,7 @@ func (c *Context) BindHeader(obj any) error {
 // It will abort the request with HTTP 400 if any error occurs.
 func (c *Context) BindUri(obj any) error {
 	if err := c.ShouldBindUri(obj); err != nil {
-		c.AbortWithError(http.StatusBadRequest, err).SetType(ErrorTypeBind) //nolint: errcheck
+		c.AbortWithError(http.StatusBadRequest, err).SetType(ErrorTypeBind) // nolint: errcheck
 		return err
 	}
 	return nil
@@ -676,7 +676,7 @@ func (c *Context) BindUri(obj any) error {
 // See the binding package.
 func (c *Context) MustBindWith(obj any, b binding.Binding) error {
 	if err := c.ShouldBindWith(obj, b); err != nil {
-		c.AbortWithError(http.StatusBadRequest, err).SetType(ErrorTypeBind) //nolint: errcheck
+		c.AbortWithError(http.StatusBadRequest, err).SetType(ErrorTypeBind) // nolint: errcheck
 		return err
 	}
 	return nil
@@ -1136,7 +1136,7 @@ func (c *Context) Negotiate(code int, config Negotiate) {
 		c.TOML(code, data)
 
 	default:
-		c.AbortWithError(http.StatusNotAcceptable, errors.New("the accepted formats are not offered by the server")) //nolint: errcheck
+		c.AbortWithError(http.StatusNotAcceptable, errors.New("the accepted formats are not offered by the server")) // nolint: errcheck
 	}
 }
 

@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/gin-gonic/gin/internal/json"
+	"github.com/dushaoshuai/explore-gin-routes-tree/internal/json"
 )
 
 // ErrorType is an unsigned 64-bit error code as defined in the gin spec.
