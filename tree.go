@@ -76,6 +76,8 @@ func (trees methodTrees) writeStruct(b *bytes.Buffer) {
 		methodTreeHeader(tree.method, b)
 		// traverse nodes
 		traverseNodes(tree.root, nil, '-', b) // '-' is useless
+		b.WriteRune('\n')
+		b.WriteRune('\n')
 	}
 }
 
