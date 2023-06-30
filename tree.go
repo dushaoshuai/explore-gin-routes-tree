@@ -7,6 +7,7 @@ package gin
 import (
 	"bytes"
 	"net/url"
+	"strconv"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -111,9 +112,18 @@ func traverseNodes(n *node, linePrefix []byte, indexToNode byte, b *bytes.Buffer
 		b.WriteString(attri)
 		b.WriteRune('\n')
 	}
+	nodeAttribute("nodeType: " + n.nType.String())
+	nodeAttribute("priority: " + strconv.FormatUint(uint64(n.priority), 10))
+	nodeAttribute("wildChild: " + strconv.FormatBool(n.wildChild))
 	nodeAttribute("path: " + n.path)
 	nodeAttribute("fullPath: " + n.fullPath)
 	nodeAttribute("indices: " + n.indices)
+	nodeAttribute("handlers:")
+	linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, len("handlers:"))...)
+	for i := range n.handlers {
+		nodeAttribute(nameOfFunction(n.handlers[i]))
+	}
+	linePrefix = linePrefix[:len(linePrefix)-len("handlers:")]
 
 	linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, 5)...)
 	linePrefix = utf8.AppendRune(linePrefix, '│')
@@ -175,6 +185,21 @@ const (
 	param
 	catchAll
 )
+
+func (nt nodeType) String() string {
+	switch nt {
+	case static:
+		return "static"
+	case root:
+		return "root"
+	case param:
+		return "param"
+	case catchAll:
+		return "catchAll"
+	default:
+		return ""
+	}
+}
 
 type node struct {
 	path      string
