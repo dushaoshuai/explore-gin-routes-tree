@@ -3,9 +3,16 @@
 This fork is dedicated to explore [Gin(v1.9.1)](https://gin-gonic.com/)'s routes tree structure. It
 helps to inspect the internal of Gin's routes tree.
 
-# How Gin represents a node
+# Types
 
 ```go
+type methodTrees []methodTree
+
+type methodTree struct {
+    method string
+    root   *node
+}
+
 type node struct {
     path      string        // path segment stored in this node
     indices   string        // indices to access child node in children, each rune index a child node's path segment
