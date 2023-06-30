@@ -36,17 +36,22 @@ import (
 	gin "github.com/dushaoshuai/explore-gin-routes-tree"
 )
 
-func docInstall(ctx *gin.Context)  {}
-func docGetStart(ctx *gin.Context) {}
-func docCmd(ctx *gin.Context)      {}
-func docUpload(ctx *gin.Context)   {}
-func refMod(ctx *gin.Context)      {}
-func refSpec(ctx *gin.Context)     {}
-func login(ctx *gin.Context)       {}
-func logout(ctx *gin.Context)      {}
+func doc(ctx *gin.Context)           {}
+func docInstall(ctx *gin.Context)    {}
+func docGetStart(ctx *gin.Context)   {}
+func docCmd(ctx *gin.Context)        {}
+func docUpload(ctx *gin.Context)     {}
+func refMod(ctx *gin.Context)        {}
+func refSpec(ctx *gin.Context)       {}
+func userLogin(ctx *gin.Context)     {}
+func userLogout(ctx *gin.Context)    {}
+func companyLogin(ctx *gin.Context)  {}
+func companyLogout(ctx *gin.Context) {}
 
 func main() {
 	r := gin.Default()
+
+	r.GET("/doc", doc)
 
 	docGroup := r.Group("/doc")
 	{
@@ -62,8 +67,10 @@ func main() {
 		refGroup.GET("/spec", refSpec)
 	}
 
-	r.POST("/login/:user", login)
-	r.POST("/logout/*user_id", logout)
+	r.POST("/user/login/:user", userLogin)
+	r.POST("/user/logout/:user", userLogout)
+	r.POST("/company/login/*company", companyLogin)
+	r.POST("/company/logout/*company", companyLogout)
 
 	r.Run() // default :8080
 }
