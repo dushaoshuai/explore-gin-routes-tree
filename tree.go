@@ -98,7 +98,7 @@ func traverseNodes(n *node, linePrefix []byte, indexToNode string, b *bytes.Buff
 	b.WriteRune('\n')
 
 	// edge connecting node to it's parent,
-	// what it looks like: --c--
+	// what it looks like: ──c─┐
 	switch n.nType {
 	case root:
 	default:
