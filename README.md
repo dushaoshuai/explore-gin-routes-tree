@@ -31,7 +31,6 @@ Import this fork and write your routes:
 
 ```go
 package main
-
 import (
 	gin "github.com/dushaoshuai/explore-gin-routes-tree"
 )
@@ -78,7 +77,7 @@ $ curl http://localhost:8080/debug-trees
 ====================
 
 nodeType: root
-priority: 6
+priority: 7
 wildChild: false
 path: /
 fullPath: /
@@ -86,7 +85,7 @@ indices: dr
      │
      │──d─┐
      │     nodeType: static
-     │     priority: 4
+     │     priority: 5
      │     wildChild: false
      │     path: d
      │     fullPath: /d
@@ -94,59 +93,67 @@ indices: dr
      │          │
      │          │──o─┐
      │          │     nodeType: static
-     │          │     priority: 3
+     │          │     priority: 4
      │          │     wildChild: false
-     │          │     path: oc/
-     │          │     fullPath: /doc/
-     │          │     indices: itc
+     │          │     handlers:
+     │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │        main.doc
+     │          │     path: oc
+     │          │     fullPath: /doc
+     │          │     indices: /
      │          │          │
-     │          │          │──i─┐
+     │          │          │──/─┐
      │          │          │     nodeType: static
-     │          │          │     priority: 1
+     │          │          │     priority: 3
      │          │          │     wildChild: false
-     │          │          │     path: install
-     │          │          │     fullPath: /doc/install
-     │          │          │     indices: 
-     │          │          │     handlers:
-     │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
-     │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
-     │          │          │              main.docInstall
-     │          │          │
-     │          │          │──t─┐
-     │          │          │     nodeType: static
-     │          │          │     priority: 1
-     │          │          │     wildChild: false
-     │          │          │     path: tutorial/getting-started
-     │          │          │     fullPath: /doc/tutorial/getting-started
-     │          │          │     indices: 
-     │          │          │     handlers:
-     │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
-     │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
-     │          │          │              main.docGetStart
-     │          │          │
-     │          │          │──c─┐
-     │          │          │     nodeType: static
-     │          │          │     priority: 1
-     │          │          │     wildChild: false
-     │          │          │     path: cmd
-     │          │          │     fullPath: /doc/cmd
-     │          │          │     indices: 
-     │          │          │     handlers:
-     │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
-     │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
-     │          │          │              main.docCmd
+     │          │          │     path: /
+     │          │          │     fullPath: /doc/
+     │          │          │     indices: itc
+     │          │          │          │
+     │          │          │          │──i─┐
+     │          │          │          │     nodeType: static
+     │          │          │          │     priority: 1
+     │          │          │          │     wildChild: false
+     │          │          │          │     handlers:
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │          │          │        main.docInstall
+     │          │          │          │     path: install
+     │          │          │          │     fullPath: /doc/install
+     │          │          │          │
+     │          │          │          │──t─┐
+     │          │          │          │     nodeType: static
+     │          │          │          │     priority: 1
+     │          │          │          │     wildChild: false
+     │          │          │          │     handlers:
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │          │          │        main.docGetStart
+     │          │          │          │     path: tutorial/getting-started
+     │          │          │          │     fullPath: /doc/tutorial/getting-started
+     │          │          │          │
+     │          │          │          │──c─┐
+     │          │          │          │     nodeType: static
+     │          │          │          │     priority: 1
+     │          │          │          │     wildChild: false
+     │          │          │          │     handlers:
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │          │          │        main.docCmd
+     │          │          │          │     path: cmd
+     │          │          │          │     fullPath: /doc/cmd
      │          │
      │          │──e─┐
      │          │     nodeType: static
      │          │     priority: 1
      │          │     wildChild: false
+     │          │     handlers:
+     │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │        github.com/dushaoshuai/explore-gin-routes-tree.Default.func1
      │          │     path: ebug-trees
      │          │     fullPath: /debug-trees
-     │          │     indices: 
-     │          │     handlers:
-     │          │              github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
-     │          │              github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
-     │          │              github.com/dushaoshuai/explore-gin-routes-tree.Default.func1
      │
      │──r─┐
      │     nodeType: static
@@ -160,25 +167,23 @@ indices: dr
      │          │     nodeType: static
      │          │     priority: 1
      │          │     wildChild: false
+     │          │     handlers:
+     │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │        main.refMod
      │          │     path: mod
      │          │     fullPath: /ref/mod
-     │          │     indices: 
-     │          │     handlers:
-     │          │              github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
-     │          │              github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
-     │          │              main.refMod
      │          │
      │          │──s─┐
      │          │     nodeType: static
      │          │     priority: 1
      │          │     wildChild: false
+     │          │     handlers:
+     │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │        main.refSpec
      │          │     path: spec
      │          │     fullPath: /ref/spec
-     │          │     indices: 
-     │          │     handlers:
-     │          │              github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
-     │          │              github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
-     │          │              main.refSpec
 
 
 ====================
@@ -186,18 +191,18 @@ indices: dr
 ====================
 
 nodeType: root
-priority: 3
+priority: 5
 wildChild: false
 path: /
 fullPath: /
-indices: ld
+indices: ucd
      │
-     │──l─┐
+     │──u─┐
      │     nodeType: static
      │     priority: 2
      │     wildChild: false
-     │     path: log
-     │     fullPath: /log
+     │     path: user/log
+     │     fullPath: /user/log
      │     indices: io
      │          │
      │          │──i─┐
@@ -205,27 +210,51 @@ indices: ld
      │          │     priority: 1
      │          │     wildChild: true
      │          │     path: in/
-     │          │     fullPath: /login/:user
-     │          │     indices: 
+     │          │     fullPath: /user/login/:user
      │          │          │
      │          │          │────┐
      │          │          │     nodeType: param
      │          │          │     priority: 1
      │          │          │     wildChild: false
-     │          │          │     path: :user
-     │          │          │     fullPath: /login/:user
-     │          │          │     indices: 
      │          │          │     handlers:
-     │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
-     │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
-     │          │          │              main.login
+     │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │          │        main.userLogin
+     │          │          │     path: :user
+     │          │          │     fullPath: /user/login/:user
      │          │
      │          │──o─┐
      │          │     nodeType: static
      │          │     priority: 1
+     │          │     wildChild: true
+     │          │     path: out/
+     │          │     fullPath: /user/logout/:user
+     │          │          │
+     │          │          │────┐
+     │          │          │     nodeType: param
+     │          │          │     priority: 1
+     │          │          │     wildChild: false
+     │          │          │     handlers:
+     │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │          │        main.userLogout
+     │          │          │     path: :user
+     │          │          │     fullPath: /user/logout/:user
+     │
+     │──c─┐
+     │     nodeType: static
+     │     priority: 2
+     │     wildChild: false
+     │     path: company/log
+     │     fullPath: /company/log
+     │     indices: io
+     │          │
+     │          │──i─┐
+     │          │     nodeType: static
+     │          │     priority: 1
      │          │     wildChild: false
-     │          │     path: out
-     │          │     fullPath: /logout/*user_id
+     │          │     path: in
+     │          │     fullPath: /company/login/*company
      │          │     indices: /
      │          │          │
      │          │          │──/─┐
@@ -233,30 +262,53 @@ indices: ld
      │          │          │     priority: 1
      │          │          │     wildChild: true
      │          │          │     path: 
-     │          │          │     fullPath: /logout/*user_id
-     │          │          │     indices: 
+     │          │          │     fullPath: /company/login/*company
      │          │          │          │
      │          │          │          │────┐
      │          │          │          │     nodeType: catchAll
      │          │          │          │     priority: 1
      │          │          │          │     wildChild: false
-     │          │          │          │     path: /*user_id
-     │          │          │          │     fullPath: /logout/*user_id
-     │          │          │          │     indices: 
      │          │          │          │     handlers:
-     │          │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
-     │          │          │          │              github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
-     │          │          │          │              main.logout
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │          │          │        main.companyLogin
+     │          │          │          │     path: /*company
+     │          │          │          │     fullPath: /company/login/*company
+     │          │
+     │          │──o─┐
+     │          │     nodeType: static
+     │          │     priority: 1
+     │          │     wildChild: false
+     │          │     path: out
+     │          │     fullPath: /company/logout/*company
+     │          │     indices: /
+     │          │          │
+     │          │          │──/─┐
+     │          │          │     nodeType: catchAll
+     │          │          │     priority: 1
+     │          │          │     wildChild: true
+     │          │          │     path: 
+     │          │          │     fullPath: /company/logout/*company
+     │          │          │          │
+     │          │          │          │────┐
+     │          │          │          │     nodeType: catchAll
+     │          │          │          │     priority: 1
+     │          │          │          │     wildChild: false
+     │          │          │          │     handlers:
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │          │          │          │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │          │          │          │        main.companyLogout
+     │          │          │          │     path: /*company
+     │          │          │          │     fullPath: /company/logout/*company
      │
      │──d─┐
      │     nodeType: static
      │     priority: 1
      │     wildChild: false
+     │     handlers:
+     │        github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
+     │        github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
+     │        main.docUpload
      │     path: doc/upload
      │     fullPath: /doc/upload
-     │     indices: 
-     │     handlers:
-     │              github.com/dushaoshuai/explore-gin-routes-tree.LoggerWithConfig.func1
-     │              github.com/dushaoshuai/explore-gin-routes-tree.CustomRecoveryWithWriter.func1
-     │              main.docUpload
 ```
