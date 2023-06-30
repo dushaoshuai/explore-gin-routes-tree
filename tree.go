@@ -118,12 +118,14 @@ func traverseNodes(n *node, linePrefix []byte, indexToNode byte, b *bytes.Buffer
 	nodeAttribute("path: " + n.path)
 	nodeAttribute("fullPath: " + n.fullPath)
 	nodeAttribute("indices: " + n.indices)
-	nodeAttribute("handlers:")
-	linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, len("handlers:"))...)
-	for i := range n.handlers {
-		nodeAttribute(nameOfFunction(n.handlers[i]))
+	if len(n.handlers) != 0 {
+		nodeAttribute("handlers:")
+		linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, len("handlers:"))...)
+		for i := range n.handlers {
+			nodeAttribute(nameOfFunction(n.handlers[i]))
+		}
+		linePrefix = linePrefix[:len(linePrefix)-len("handlers:")]
 	}
-	linePrefix = linePrefix[:len(linePrefix)-len("handlers:")]
 
 	linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, 5)...)
 	linePrefix = utf8.AppendRune(linePrefix, '│')
