@@ -3,6 +3,21 @@
 This fork is dedicated to explore [Gin(v1.9.1)](https://gin-gonic.com/)'s routes tree structure. It
 helps to inspect the internal of Gin's routes tree.
 
+# How Gin represents a node
+
+```go
+type node struct {
+    path      string        // path segment stored in this node
+    indices   string        // indices to access child node in children, each rune index a child node's path segment
+    wildChild bool          // whether a child node's nodeType is param or catchAll
+    nType     nodeType      // node's type: static, root, param, catchAll
+    priority  uint32        // number of handlers explicitly registered in this node
+    children  []*node       // child nodes, at most 1 :param style node at the end of the array
+    handlers  HandlersChain // handlers with middlewares at the beginning
+    fullPath  string        // full path chained from the root node to the current node
+}
+```
+
 # Quick Start
 
 Import this fork and write your routes:
