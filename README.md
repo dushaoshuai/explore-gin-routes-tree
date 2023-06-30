@@ -3,7 +3,7 @@
 This fork is dedicated to explore [Gin(v1.9.1)](https://gin-gonic.com/)'s routes tree structure. It
 helps to inspect the internal of Gin's routes tree.
 
-# Types
+# Gin's types
 
 ```go
 type methodTrees []methodTree
