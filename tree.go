@@ -75,7 +75,7 @@ func (trees methodTrees) writeStruct(b *bytes.Buffer) {
 		// ====================
 		methodTreeHeader(tree.method, b)
 		// traverse nodes
-		traverseNodes(tree.root, nil, '-', b) // '-' is useless
+		traverseNodes(tree.root, nil, "─", b) // '─' is useless
 		b.WriteRune('\n')
 		b.WriteRune('\n')
 	}
@@ -92,7 +92,7 @@ func methodTreeHeader(method string, b *bytes.Buffer) {
 	b.WriteRune('\n')
 }
 
-func traverseNodes(n *node, linePrefix []byte, indexToNode byte, b *bytes.Buffer) {
+func traverseNodes(n *node, linePrefix []byte, indexToNode string, b *bytes.Buffer) {
 	// an empty line
 	b.Write(linePrefix)
 	b.WriteRune('\n')
@@ -102,7 +102,7 @@ func traverseNodes(n *node, linePrefix []byte, indexToNode byte, b *bytes.Buffer
 	switch n.nType {
 	case root:
 	default:
-		edge := "──" + string(indexToNode) + "─┐"
+		edge := "──" + indexToNode + "─┐"
 		b.Write(linePrefix)
 		b.WriteString(edge)
 		b.WriteRune('\n')
@@ -132,11 +132,11 @@ func traverseNodes(n *node, linePrefix []byte, indexToNode byte, b *bytes.Buffer
 	linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, 5)...)
 	linePrefix = utf8.AppendRune(linePrefix, '│')
 	for i, child := range n.children {
-		var idx byte
+		var idx string
 		if i < len(n.indices) {
-			idx = n.indices[i]
+			idx = n.indices[i : i+1]
 		} else {
-			idx = '-'
+			idx = "─"
 		}
 		traverseNodes(child, linePrefix, idx, b)
 	}
