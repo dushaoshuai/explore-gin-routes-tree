@@ -206,14 +206,14 @@ func (nt nodeType) String() string {
 }
 
 type node struct {
-	path      string
-	indices   string
-	wildChild bool
-	nType     nodeType
-	priority  uint32
-	children  []*node // child nodes, at most 1 :param style node at the end of the array
-	handlers  HandlersChain
-	fullPath  string
+	path      string        // path segment stored in this node
+	indices   string        // indices to access child node in children, each rune index a child node's path segment
+	wildChild bool          // whether a child node's nodeType is param or catchAll
+	nType     nodeType      // node's type: static, root, param, catchAll
+	priority  uint32        // number of handlers explicitly registered in this node
+	children  []*node       // child nodes, at most 1 :param style node at the end of the array
+	handlers  HandlersChain // handlers with middlewares at the beginning
+	fullPath  string        // full path chained from the root node to the current node
 }
 
 // Increments priority of the given child and reorders if necessary
