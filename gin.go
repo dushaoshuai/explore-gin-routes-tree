@@ -5,6 +5,7 @@
 package gin
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
 	"net"
@@ -15,10 +16,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/dushaoshuai/explore-gin-routes-tree/internal/bytesconv"
-	"github.com/dushaoshuai/explore-gin-routes-tree/render"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
+
+	"github.com/dushaoshuai/explore-gin-routes-tree/internal/bytesconv"
+	"github.com/dushaoshuai/explore-gin-routes-tree/render"
 )
 
 const defaultMultipartMemory = 32 << 20 // 32 MB
@@ -217,6 +219,13 @@ func Default() *Engine {
 	debugPrintWARNINGDefault()
 	engine := New()
 	engine.Use(Logger(), Recovery())
+
+	engine.GET("debug-trees", func(ctx *Context) {
+		b := new(bytes.Buffer)
+		ctx.engine.trees.writeStruct(b)
+		ctx.DataFromReader(http.StatusOK, int64(b.Len()), "text/plain; charset=utf-8", b, nil)
+	})
+
 	return engine
 }
 

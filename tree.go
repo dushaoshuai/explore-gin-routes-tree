@@ -7,6 +7,7 @@ package gin
 import (
 	"bytes"
 	"net/url"
+	"strconv"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -65,6 +66,84 @@ func (trees methodTrees) get(method string) *node {
 	return nil
 }
 
+func (trees methodTrees) writeStruct(b *bytes.Buffer) {
+	for _, tree := range trees {
+		// method tree header,
+		// what it looks like:
+		// ====================
+		//       GET
+		// ====================
+		methodTreeHeader(tree.method, b)
+		// traverse nodes
+		traverseNodes(tree.root, nil, "─", b) // '─' is useless
+		b.WriteRune('\n')
+		b.WriteRune('\n')
+	}
+}
+
+func methodTreeHeader(method string, b *bytes.Buffer) {
+	header := bytes.Repeat([]byte{'='}, 20)
+	header = append(header, '\n')
+	b.Write(header)
+	defer b.Write(header)
+
+	b.Write(bytes.Repeat([]byte{' '}, 7))
+	b.WriteString(method)
+	b.WriteRune('\n')
+}
+
+func traverseNodes(n *node, linePrefix []byte, indexToNode string, b *bytes.Buffer) {
+	// an empty line
+	b.Write(linePrefix)
+	b.WriteRune('\n')
+
+	// edge connecting node to it's parent,
+	// what it looks like: ──c─┐
+	switch n.nType {
+	case root:
+	default:
+		edge := "──" + indexToNode + "─┐"
+		b.Write(linePrefix)
+		b.WriteString(edge)
+		b.WriteRune('\n')
+		linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, utf8.RuneCountInString(edge))...)
+	}
+
+	nodeAttribute := func(attri string) {
+		b.Write(linePrefix)
+		b.WriteString(attri)
+		b.WriteRune('\n')
+	}
+	nodeAttribute("nodeType: " + n.nType.String())
+	nodeAttribute("priority: " + strconv.FormatUint(uint64(n.priority), 10))
+	nodeAttribute("wildChild: " + strconv.FormatBool(n.wildChild))
+	if len(n.handlers) != 0 {
+		nodeAttribute("handlers:")
+		linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, 3)...)
+		for i := range n.handlers {
+			nodeAttribute(nameOfFunction(n.handlers[i]))
+		}
+		linePrefix = linePrefix[:len(linePrefix)-3]
+	}
+	nodeAttribute("path: " + n.path)
+	nodeAttribute("fullPath: " + n.fullPath)
+	if n.indices != "" {
+		nodeAttribute("indices: " + n.indices)
+	}
+
+	linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, 5)...)
+	linePrefix = utf8.AppendRune(linePrefix, '│')
+	for i, child := range n.children {
+		var idx string
+		if i < len(n.indices) {
+			idx = n.indices[i : i+1]
+		} else {
+			idx = "─"
+		}
+		traverseNodes(child, linePrefix, idx, b)
+	}
+}
+
 func min(a, b int) int {
 	if a <= b {
 		return a
@@ -113,15 +192,30 @@ const (
 	catchAll
 )
 
+func (nt nodeType) String() string {
+	switch nt {
+	case static:
+		return "static"
+	case root:
+		return "root"
+	case param:
+		return "param"
+	case catchAll:
+		return "catchAll"
+	default:
+		return ""
+	}
+}
+
 type node struct {
-	path      string
-	indices   string
-	wildChild bool
-	nType     nodeType
-	priority  uint32
-	children  []*node // child nodes, at most 1 :param style node at the end of the array
-	handlers  HandlersChain
-	fullPath  string
+	path      string        // path segment stored in this node
+	indices   string        // indices to access child node in children, each rune index a child node's path segment
+	wildChild bool          // whether a child node's nodeType is param or catchAll
+	nType     nodeType      // node's type: static, root, param, catchAll
+	priority  uint32        // number of handlers explicitly registered in this node
+	children  []*node       // child nodes, at most 1 :param style node at the end of the array
+	handlers  HandlersChain // handlers with middlewares at the beginning
+	fullPath  string        // full path chained from the root node to the current node
 }
 
 // Increments priority of the given child and reorders if necessary
