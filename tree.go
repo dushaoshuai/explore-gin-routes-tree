@@ -65,6 +65,69 @@ func (trees methodTrees) get(method string) *node {
 	return nil
 }
 
+func (trees methodTrees) writeStruct(b *bytes.Buffer) {
+	for _, tree := range trees {
+		// method tree header,
+		// what it looks like:
+		// ====================
+		//       GET
+		// ====================
+		methodTreeHeader(tree.method, b)
+		// traverse nodes
+		traverseNodes(tree.root, nil, '-', b) // '-' is useless
+	}
+}
+
+func methodTreeHeader(method string, b *bytes.Buffer) {
+	header := bytes.Repeat([]byte{'='}, 20)
+	header = append(header, '\n')
+	b.Write(header)
+	defer b.Write(header)
+
+	b.Write(bytes.Repeat([]byte{' '}, 7))
+	b.WriteString(method)
+	b.WriteRune('\n')
+}
+
+func traverseNodes(n *node, linePrefix []byte, indexToNode byte, b *bytes.Buffer) {
+	// an empty line
+	b.Write(linePrefix)
+	b.WriteRune('\n')
+
+	// edge connecting node to it's parent,
+	// what it looks like: --c--
+	switch n.nType {
+	case root:
+	default:
+		edge := "──" + string(indexToNode) + "─┐"
+		b.Write(linePrefix)
+		b.WriteString(edge)
+		b.WriteRune('\n')
+		linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, utf8.RuneCountInString(edge))...)
+	}
+
+	nodeAttribute := func(attri string) {
+		b.Write(linePrefix)
+		b.WriteString(attri)
+		b.WriteRune('\n')
+	}
+	nodeAttribute("path: " + n.path)
+	nodeAttribute("fullPath: " + n.fullPath)
+	nodeAttribute("indices: " + n.indices)
+
+	linePrefix = append(linePrefix, bytes.Repeat([]byte{' '}, 5)...)
+	linePrefix = utf8.AppendRune(linePrefix, '│')
+	for i, child := range n.children {
+		var idx byte
+		if i < len(n.indices) {
+			idx = n.indices[i]
+		} else {
+			idx = '-'
+		}
+		traverseNodes(child, linePrefix, idx, b)
+	}
+}
+
 func min(a, b int) int {
 	if a <= b {
 		return a
